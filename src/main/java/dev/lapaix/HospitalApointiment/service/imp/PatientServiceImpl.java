@@ -44,7 +44,7 @@ public class PatientServiceImpl implements PatientService {
     }
     @Override
     public Patient findByNId(String nId) {
-        return patientRepository.findByNId(nId);
+        return patientRepository.findByNid(nId);
     }
 
     @Override

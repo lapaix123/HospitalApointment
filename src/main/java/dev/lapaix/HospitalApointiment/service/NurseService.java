@@ -9,5 +9,6 @@ public interface NurseService {
     Nurse getNurseById(Long nurseId);
     List<Nurse> getAllNurses();
     Nurse updateNurse(Long nurseId, Nurse nurse);
-    void deleteNurse(Long nurseId);
+    boolean deleteNurse(Long nurseId);
+//    Nurse registerNurseWithUser(Nurse nurse,String password);
 }

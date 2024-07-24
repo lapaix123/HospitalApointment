@@ -39,7 +39,9 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
-    public void deleteNurse(Long nurseId) {
+    public boolean deleteNurse(Long nurseId) {
+
         nurseRepository.deleteById(nurseId);
+        return true;
     }
 }

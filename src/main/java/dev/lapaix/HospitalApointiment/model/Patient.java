@@ -12,7 +12,7 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long patientId;
-    private String nId;
+    private String nid;
     private String firstName;
     private String lastName;
     @Enumerated(EnumType.STRING)
