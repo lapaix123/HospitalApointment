@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/nurse")
+@RequestMapping("/api/nurse")
 public class NurseController {
     @Autowired
     private NurseService nurseService;
@@ -26,7 +26,7 @@ public class NurseController {
         return new ResponseEntity<>(nurses,HttpStatus.OK);
 
     }
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Nurse> updateNurse(@PathVariable("id") Long id,@RequestBody Nurse nurse){
         Nurse updateNurse=nurseService.updateNurse(id,nurse);
         if(updateNurse != null){
@@ -36,7 +36,7 @@ public class NurseController {
         }
 
     }
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Nurse> deleteNurse(@PathVariable("id") Long id){
         if(nurseService.deleteNurse(id)){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

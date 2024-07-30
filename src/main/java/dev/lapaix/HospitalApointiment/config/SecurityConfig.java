@@ -22,7 +22,7 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable())
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/public/**").permitAll()  // Allowing all requests to /public/**
-                        .requestMatchers("/nurse/**").permitAll()
+                        .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated()
                 );
 
