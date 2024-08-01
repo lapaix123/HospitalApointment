@@ -4,6 +4,8 @@ import dev.lapaix.HospitalApointiment.model.enumeration.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
+
 @Entity
 @Data
 public class User {
@@ -14,5 +16,9 @@ public class User {
     private Role role;
     private String email;
     private String password;
+    private boolean enabled;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
 }

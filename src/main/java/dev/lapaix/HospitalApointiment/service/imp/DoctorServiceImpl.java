@@ -28,15 +28,13 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor saveDoctor(Doctor doctor) {
-        //genarate Random password
+        //generate Random password
         String randomPassword = PasswordGenerator.generateRandomPassword(10);
-
         // Create and save the user
         User user = new User();
         user.setEmail(doctor.getEmail()); // Use email as username or any unique identifier
         user.setPassword(passwordEncoder.encode(randomPassword)); // Encode the password
         user.setRole(Role.DOCTOR);
-
         userRepository.save(user);
 
         if (doctor.getEmail() != null) {

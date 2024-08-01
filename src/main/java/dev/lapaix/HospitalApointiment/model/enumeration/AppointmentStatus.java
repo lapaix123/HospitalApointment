@@ -1,8 +1,8 @@
 package dev.lapaix.HospitalApointiment.model.enumeration;
 
 public enum AppointmentStatus {
-    SCHEDULED,
+    AVAILABLE,
+    TAKEN,
     CANCELED,
-    COMPLETED,
     CHANGED
 }

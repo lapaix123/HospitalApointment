@@ -10,5 +10,5 @@ public interface NurseService {
     List<Nurse> getAllNurses();
     Nurse updateNurse(Long nurseId, Nurse nurse);
     boolean deleteNurse(Long nurseId);
-//    Nurse registerNurseWithUser(Nurse nurse,String password);
+
 }

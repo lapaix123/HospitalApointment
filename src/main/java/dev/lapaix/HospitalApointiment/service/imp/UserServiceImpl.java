@@ -4,23 +4,30 @@ import dev.lapaix.HospitalApointiment.model.User;
 import dev.lapaix.HospitalApointiment.repository.UserRepository;
 import dev.lapaix.HospitalApointiment.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private PasswordEncoder passwordEncoder;
 
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public User saveUser(User user) {
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -28,6 +35,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Long userId) {
         return userRepository.findById(userId).orElse(null);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -48,6 +60,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
+
     @Override
     public User login(String email, String password) {
         User user = userRepository.findByEmail(email);
@@ -55,5 +68,17 @@ public class UserServiceImpl implements UserService {
             return user;
         }
         return null;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        Set<GrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.name()))
+                .collect(Collectors.toSet());
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 }

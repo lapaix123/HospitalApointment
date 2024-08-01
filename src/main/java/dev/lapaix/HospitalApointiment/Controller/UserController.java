@@ -5,6 +5,9 @@ import dev.lapaix.HospitalApointiment.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,10 +19,27 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
         User savedUser = userService.saveUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestParam String email, @RequestParam String password) {
+        User user = userService.login(email, password);
+        if (user != null) {
+            return new ResponseEntity<>("Login successful", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<User> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User currentUser = userService.getUserByEmail(userDetails.getUsername());
+        return new ResponseEntity<>(currentUser, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -50,14 +70,5 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long userId) {
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestParam String email, @RequestParam String password) {
-        User user = userService.login(email, password);
-        if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }

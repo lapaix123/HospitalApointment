@@ -24,6 +24,9 @@ public class Doctor {
     private Qualification qualification;
     @Enumerated(EnumType.STRING)
     private EmploymentStatus employmentStatus;
+    @ManyToOne
+    @JoinColumn(name = "specialization_id")
+    private Specialization specialization;
     @OneToMany(mappedBy = "doctor")
     private Set<Appointment> appointments;
 }

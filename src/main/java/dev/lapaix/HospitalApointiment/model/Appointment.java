@@ -26,5 +26,10 @@ public class Appointment {
     private Nurse registeredBy;
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
-
+    @PrePersist
+    public void prePersist() {
+        if (endingLocalDateTime == null) {
+            endingLocalDateTime = startingLocalDateTime.plusMinutes(30);
+        }
+    }
 }
