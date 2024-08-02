@@ -15,7 +15,10 @@ public class PatientController {
 
     @Autowired
     private PatientService patientService;
-
+    @GetMapping("/total")
+    public long getTotalPatients() {
+        return patientService.getTotalPatients();
+    }
     @PostMapping("/create")
     public ResponseEntity<Patient> createPatient(@RequestBody Patient patient) {
         Patient newPatient = patientService.savePatient(patient);

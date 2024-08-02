@@ -18,17 +18,30 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
+    @GetMapping("/total")
+    public long getTotalUsers() {
+        return userService.getTotalUsers();
+    }
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         User savedUser = userService.saveUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
+
+//    @PostMapping("/login")
+//    public ResponseEntity<String> loginUser(@RequestParam String email, @RequestParam String password) {
+//        User user = userService.login(email, password);
+//        if (user != null) {
+//            return new ResponseEntity<>("Login successful", HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
+//    }
+
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestParam String email, @RequestParam String password) {
-        User user = userService.login(email, password);
-        if (user != null) {
+    public ResponseEntity<String> loginUser(@RequestBody User user) {
+        User authenticatedUser = userService.login(user.getEmail(), user.getPassword());
+        if (authenticatedUser != null) {
             return new ResponseEntity<>("Login successful", HttpStatus.OK);
         }
         return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
@@ -71,4 +84,10 @@ public class UserController {
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    @PostMapping("/logout")
+    public ResponseEntity<String> logoutUser() {
+        // Placeholder for any logout logic or cleanup
+        return new ResponseEntity<>("Logout successful", HttpStatus.OK);
+    }
+
 }

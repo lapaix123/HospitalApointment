@@ -16,14 +16,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.disable())
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .formLogin(form -> form.disable())
-                .authorizeHttpRequests(registry -> registry
-                        .requestMatchers("/public/**").permitAll()  // Allowing all requests to /public/**
-                        .requestMatchers("/api/**").permitAll()
-                        .anyRequest().authenticated()
+                .cors().and()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .formLogin().disable()
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().permitAll()
                 );
 
         return http.build();

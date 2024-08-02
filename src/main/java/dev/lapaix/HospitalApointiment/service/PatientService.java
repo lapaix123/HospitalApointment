@@ -12,4 +12,5 @@ public interface PatientService {
     void deletePatient(Long patientId);
     Patient findByNId(String nId);
     Patient findByPhoneNumber(String phoneNumber);
+    long getTotalPatients();
 }

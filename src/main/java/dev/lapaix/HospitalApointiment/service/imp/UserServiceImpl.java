@@ -31,6 +31,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
+    @Override
+    public long getTotalUsers() {
+        return userRepository.count();
+    }
 
     @Override
     public User getUserById(Long userId) {

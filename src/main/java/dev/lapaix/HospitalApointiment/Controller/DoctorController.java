@@ -14,7 +14,10 @@ public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
-
+    @GetMapping("/total")
+    public long getTotalDoctors() {
+        return doctorService.getTotalDoctors();
+    }
     @PostMapping("/create")
     public ResponseEntity<Doctor> createDoctor(@RequestBody Doctor doctor) {
         Doctor newDoctor = doctorService.saveDoctor(doctor);

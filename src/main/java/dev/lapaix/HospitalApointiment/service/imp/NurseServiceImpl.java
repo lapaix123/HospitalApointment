@@ -25,6 +25,10 @@ public class NurseServiceImpl implements NurseService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Override
+    public long getTotalNurses() {
+        return nurseRepository.count();
+    }
 
     @Override
     public Nurse saveNurse(Nurse nurse) {

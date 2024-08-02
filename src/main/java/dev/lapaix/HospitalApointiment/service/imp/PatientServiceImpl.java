@@ -13,7 +13,10 @@ public class PatientServiceImpl implements PatientService {
 
     @Autowired
     private PatientRepository patientRepository;
-
+    @Override
+    public long getTotalPatients() {
+        return patientRepository.count();
+    }
     @Override
     public Patient savePatient(Patient patient) {
         return patientRepository.save(patient);

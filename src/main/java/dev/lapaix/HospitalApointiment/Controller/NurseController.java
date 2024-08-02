@@ -14,6 +14,10 @@ import java.util.List;
 public class NurseController {
     @Autowired
     private NurseService nurseService;
+    @GetMapping("/total")
+    public long getTotalNurses() {
+        return nurseService.getTotalNurses();
+    }
     @PostMapping("/create")
     public ResponseEntity<Nurse> registerNurse(@RequestBody Nurse nurse){
         Nurse creatNurse=nurseService.saveNurse(nurse);

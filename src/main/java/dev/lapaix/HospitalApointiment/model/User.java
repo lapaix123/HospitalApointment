@@ -14,6 +14,7 @@ public class User {
     private Long userId;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @Column(unique = true)
     private String email;
     private String password;
     private boolean enabled;

@@ -25,7 +25,10 @@ public class DoctorServiceImpl implements DoctorService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    @Override
+    public long getTotalDoctors() {
+        return doctorRepository.count();
+    }
     @Override
     public Doctor saveDoctor(Doctor doctor) {
         //generate Random password
