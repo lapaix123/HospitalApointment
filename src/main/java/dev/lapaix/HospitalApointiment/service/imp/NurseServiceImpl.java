@@ -32,32 +32,34 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public Nurse saveNurse(Nurse nurse) {
-        //genarate Random password
         String randomPassword = PasswordGenerator.generateRandomPassword(10);
-
-        // Create and save the user
         User user = new User();
-        user.setEmail(nurse.getEmail()); // Use email as username or any unique identifier
-        user.setPassword(passwordEncoder.encode(randomPassword)); // Encode the password
+        user.setEmail(nurse.getEmail());
+        user.setPassword(passwordEncoder.encode(randomPassword));
         user.setRole(Role.NURSE);
-
         userRepository.save(user);
+        if (nurse.getEmail() != null) {
+            String toEmail = nurse.getEmail();
+            String subject = "Welcome to Hospital Appointment System";
+            String body = "Dear Nurse " + nurse.getFirstName() + " " + nurse.getLastName() + ",\n\n"
+                    + "We are pleased to inform you that you have been successfully registered as a new nurse in the Hospital Appointment System.\n\n"
+                    + "Here are your login details:\n"
+                    + "Username: " + nurse.getEmail() + "\n"
+                    + "Password: " + randomPassword + "\n\n"
+                    + "For your security, please change your password after your first login.\n\n"
+                    + "You can log in to the system using the following link: http://localhost:5173/\n\n"
+                    + "Should you have any questions or need further assistance, please do not hesitate to contact our support team.\n\n"
+                    + "Best regards,\n"
+                    + "The Hospital Appointment System Team\n"
+                    + "lapaix.dev@gmail.com \n"
+                    + "+250 788 965 501";
+            // Send email
+            emailService.sendEmail(toEmail, subject, body);
+        }
 
-      if(nurse.getEmail() != null)  {
-          // Prepare email content
-          String toEmail = nurse.getEmail();
-          String subject = "New Nurse Registration";
-          String body = "We are happy to notify you that you are now registered as a new nurse. "
-                  + "Your login details are as follows:\n"
-                  + "Username: " + nurse.getEmail() + "\n"
-                  + "Password: " + randomPassword + "\n"
-                  + "Please change your password after your first login.";
-
-          // Send email
-          emailService.sendEmail(toEmail, subject, body);
-      }
         return nurseRepository.save(nurse);
     }
+
 
     @Override
     public Nurse getNurseById(Long nurseId) {

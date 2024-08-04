@@ -28,16 +28,6 @@ public class UserController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-
-//    @PostMapping("/login")
-//    public ResponseEntity<String> loginUser(@RequestParam String email, @RequestParam String password) {
-//        User user = userService.login(email, password);
-//        if (user != null) {
-//            return new ResponseEntity<>("Login successful", HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
-//    }
-
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody User user) {
         User authenticatedUser = userService.login(user.getEmail(), user.getPassword());

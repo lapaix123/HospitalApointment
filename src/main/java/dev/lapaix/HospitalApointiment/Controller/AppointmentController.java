@@ -15,7 +15,10 @@ public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
-
+    @GetMapping("/total")
+    public long getTotalUsers() {
+        return appointmentService.getTotalAppointment();
+    }
     @PostMapping("/create")
     public ResponseEntity<Appointment> createAppointment(@RequestBody Appointment appointment) {
         Appointment newAppointment = appointmentService.saveAppointment(appointment);
@@ -51,4 +54,5 @@ public class AppointmentController {
         appointmentService.deleteAppointment(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

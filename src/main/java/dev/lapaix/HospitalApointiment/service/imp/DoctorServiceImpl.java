@@ -29,33 +29,33 @@ public class DoctorServiceImpl implements DoctorService {
     public long getTotalDoctors() {
         return doctorRepository.count();
     }
-    @Override
     public Doctor saveDoctor(Doctor doctor) {
-        //generate Random password
         String randomPassword = PasswordGenerator.generateRandomPassword(10);
-        // Create and save the user
         User user = new User();
-        user.setEmail(doctor.getEmail()); // Use email as username or any unique identifier
-        user.setPassword(passwordEncoder.encode(randomPassword)); // Encode the password
+        user.setEmail(doctor.getEmail());
+        user.setPassword(passwordEncoder.encode(randomPassword));
         user.setRole(Role.DOCTOR);
         userRepository.save(user);
-
         if (doctor.getEmail() != null) {
-            // Prepare email content
             String toEmail = doctor.getEmail();
-            String subject = "New Doctor Registration";
-            String body = "We are happy to notify you that you are now registered as a new doctor. "
-                    + "Your login details are as follows:\n"
+            String subject = "Welcome to Hospital Appointment System";
+            String body = "Dear Dr. " + doctor.getFirstName() + " " + doctor.getLastName() + ",\n\n"
+                    + "We are pleased to inform you that you have been successfully registered as a new doctor in the Hospital Appointment System.\n\n"
+                    + "Here are your login details:\n"
                     + "Username: " + doctor.getEmail() + "\n"
-                    + "Password: " + randomPassword + "\n"
-                    + "Please change your password after your first login.";
-
-            // Send email
+                    + "Password: " + randomPassword + "\n\n"
+                    + "For your security, please change your password after your first login.\n\n"
+                    + "You can log in to the system using the following link: http://localhost:5173/\n\n"
+                    + "Should you have any questions or need further assistance, please do not hesitate to contact our support team.\n\n"
+                    + "Best regards,\n"
+                    + "The Hospital Appointment System Team\n"
+                    + "lapaix.dev@gmail.com \n"
+                    + "+250 788 965 501";
             emailService.sendEmail(toEmail, subject, body);
         }
+
         return doctorRepository.save(doctor);
     }
-
     @Override
     public Doctor getDoctorById(Long doctorId) {
         return doctorRepository.findById(doctorId).orElse(null);

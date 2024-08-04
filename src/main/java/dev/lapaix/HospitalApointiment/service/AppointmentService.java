@@ -10,4 +10,8 @@ public interface AppointmentService {
     List<Appointment> getAllAppointments();
     Appointment updateAppointment(Long appointmentId, Appointment appointment);
     void deleteAppointment(Long appointmentId);
+    long getTotalAppointment();
+    List<Appointment> getCompletedAppointments(Long doctorId);
+    List<Appointment> getUpcomingAppointments(Long doctorId);
+//    long countTotalAppointments(Long doctorId);
 }

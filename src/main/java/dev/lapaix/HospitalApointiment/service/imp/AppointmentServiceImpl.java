@@ -1,6 +1,7 @@
 package dev.lapaix.HospitalApointiment.service.imp;
 
 import dev.lapaix.HospitalApointiment.model.Appointment;
+import dev.lapaix.HospitalApointiment.model.enumeration.AppointmentStatus;
 import dev.lapaix.HospitalApointiment.repository.AppointmentRepository;
 import dev.lapaix.HospitalApointiment.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,20 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public void deleteAppointment(Long appointmentId) {
         appointmentRepository.deleteById(appointmentId);
+    }
+
+    @Override
+    public long getTotalAppointment() {
+        return appointmentRepository.count();
+    }
+    @Override
+    public List<Appointment> getCompletedAppointments(Long doctorId) {
+//        return appointmentRepository.findByDoctorIdAndStatus(doctorId, AppointmentStatus.COMPLETED);
+        return null;
+    }
+    @Override
+    public List<Appointment> getUpcomingAppointments(Long doctorId) {
+//        return appointmentRepository.findByDoctorIdAndStatus(doctorId, AppointmentStatus.UPCOMING);
+        return null;
     }
 }
